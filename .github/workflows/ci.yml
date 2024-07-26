@@ -47,7 +47,6 @@ jobs:
           python .ci/scripts/check_requirements.py
 
   docs:
-    if: "endsWith(github.base_ref, 'main')"
     uses: "./.github/workflows/docs.yml"
 
   lint:
