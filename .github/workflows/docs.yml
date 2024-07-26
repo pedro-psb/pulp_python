@@ -10,14 +10,13 @@ name: "Docs"
 on:
   workflow_call:
 
-defaults:
-  run:
-    working-directory: "pulp_python"
-
 jobs:
   test:
     if: "endsWith(github.base_ref, 'main')"
     runs-on: "ubuntu-20.04"
+    defaults:
+      run:
+        working-directory: "pulp_python"
     steps:
       - uses: "actions/checkout@v4"
         with:
