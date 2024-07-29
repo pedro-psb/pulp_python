@@ -37,8 +37,11 @@ jobs:
       - name: "Install python dependencies"
         run: |
           echo ::group::PYDEPS
-          pip install -r doc_requirements.txt
+          pip install -r doc_requirements.txt towncrier
           echo ::endgroup::
+      - name: "Build changelog"
+        run: |
+          towncrier build --yes --version 4.0.0.ci
       - name: "Build docs"
         run: |
           pulp-docs build
