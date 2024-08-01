@@ -37,7 +37,7 @@ jobs:
       - name: "Install python dependencies"
         run: |
           echo ::group::PYDEPS
-          pip install -r doc_requirements.txt towncrier
+          pip install -r doc_requirements.txt
           echo ::endgroup::
       - name: "Build changelog"
         run: |

@@ -4,4 +4,5 @@
 # './plugin-template --github pulp_python' to update this file.
 #
 # For more info visit https://github.com/pulp/plugin_template
+towncrier
 pulp-docs @ git+https://github.com/pulp/pulp-docs@main

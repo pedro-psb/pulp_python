@@ -45,7 +45,6 @@ jobs:
       - name: "Verify requirements files"
         run: |
           python .ci/scripts/check_requirements.py
-
   docs:
     uses: "./.github/workflows/docs.yml"
 
