@@ -10,9 +10,9 @@ Use the `pulp-cli` to interact with the Pulp API. Fallback on `httpie/curl` when
 ```bash
 pulp --help
 pulp --refresh-api status
-pulp file content list --limit 5
-pulp file repository create --name foo
-pulp -v file repository sync --name foo --remote foo
+pulp python content -t package list --limit 5
+pulp python repository create --name foo
+pulp -v python repository sync --name foo --remote foo
 pulp task show --wait --href prn:core.task:019c8cae-cc5f-7148-a3de-456d0a9f39a1
 pulp show --href /pulp/api/v3/tasks/019c8cae-cc5f-7148-a3de-456d0a9f39a1/
 ```
