@@ -78,7 +78,10 @@ class Command(BaseCommand):
     Management command to repair metadata of PythonPackageContent.
     """
 
-    help = _("Repair the metadata of PythonPackageContent stored in PythonRepositories")
+    help = _(
+        "[Deprecated] Use the repository `repair_metadata` task instead. "
+        "Repair the metadata of PythonPackageContent stored in PythonRepositories."
+    )
 
     def add_arguments(self, parser):
         """Set up arguments."""
