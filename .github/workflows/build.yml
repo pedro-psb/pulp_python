@@ -9,6 +9,11 @@
 name: "Build"
 on:
   workflow_call:
+    inputs:
+      pulpcore_ref:
+        required: false
+        type: "string"
+        default: ""
 
 defaults:
   run:
@@ -40,7 +45,15 @@ jobs:
           twine check dist/*
       - name: "Install built packages"
         run: |
-          pip install dist/pulp_python-*-py3-none-any.whl -c .ci/assets/ci_constraints.txt
+          PULPCORE_REF="${{ inputs.pulpcore_ref }}"
+          if [ -n "$PULPCORE_REF" ]; then
+            if [[ "$PULPCORE_REF" =~ ^[0-9]+$ ]]; then
+              PULPCORE_REF="refs/pull/${PULPCORE_REF}/head"
+            fi
+            PULPCORE_SOURCE="git+https://github.com/pulp/pulpcore.git@${PULPCORE_REF}"
+            sed -i '/^pulpcore/d' .ci/assets/ci_constraints.txt
+          fi
+          pip install dist/pulp_python-*-py3-none-any.whl ${PULPCORE_SOURCE:-} -c .ci/assets/ci_constraints.txt
       - name: "Generate api specs"
         run: |
           pulpcore-manager openapi --file "api.json"

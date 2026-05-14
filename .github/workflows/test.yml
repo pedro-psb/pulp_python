@@ -13,6 +13,17 @@ on:
       matrix_env:
         required: true
         type: "string"
+      pulpcore_ref:
+        # WARNING: PRs should always be tested against released pulpcore versions.
+        # This is intended for ad-hoc use only, such as testing unforeseen
+        # side-effects of pulpcore changes.
+        description: >
+          pulpcore ref to test against: branch name, commit SHA, or PR number.
+
+          PR numbers are automatically converted to refs/pull/<number>/head.
+        required: false
+        type: "string"
+        default: ""
 
 defaults:
   run:
@@ -91,6 +102,7 @@ jobs:
           ANSIBLE_FORCE_COLOR: "1"
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           GITHUB_CONTEXT: "${{ github.event.pull_request.commits_url }}"
+          PULPCORE_REF: "${{ inputs.pulpcore_ref }}"
 
       - name: "Install"
         run: |

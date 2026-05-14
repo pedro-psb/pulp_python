@@ -39,6 +39,10 @@ echo "# Constraints Files:"
 tail -v -n +1  ../*/*constraints.txt || true
 
 echo
+echo "# ci_requirements.txt:"
+tail -v -n +1 ci_requirements.txt || true
+
+echo
 echo "# pip list outside the container"
 pip list
 

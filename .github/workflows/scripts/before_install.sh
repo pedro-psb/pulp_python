@@ -12,6 +12,11 @@
 #   It requires the following environment:
 #     TEST - The name of the scenario to prepare.
 #
+#   Optional environment:
+#     PULPCORE_REF - A pulpcore branch, commit SHA, or PR number to test against.
+#                   When set, installs pulpcore from source and removes version pins
+#                   so the custom ref can be installed without constraint conflicts.
+#
 #   It may also dump the {lower,upper}bounds_constraints.txt for the specific scenario.
 
 set -eu -o pipefail
@@ -37,6 +42,18 @@ if [[ "$TEST" = "pulp" ]]; then
 fi
 if [[ "$TEST" = "lowerbounds" ]]; then
   python3 .ci/scripts/calc_constraints.py pyproject.toml > lowerbounds_constraints.txt
+fi
+
+# Relax constraints if a custom pulpcore is provided
+if [ -n "${PULPCORE_REF:-}" ]; then
+  if [[ "$PULPCORE_REF" =~ ^[0-9]+$ ]]; then
+    PULPCORE_REF="refs/pull/${PULPCORE_REF}/head"
+  fi
+  echo "git+https://github.com/pulp/pulpcore.git@${PULPCORE_REF}" > ci_requirements.txt
+  sed -i '/^pulpcore/d' .ci/assets/ci_constraints.txt
+  if [ -f upperbounds_constraints.txt ]; then
+    sed -i '/^pulpcore/d' upperbounds_constraints.txt
+  fi
 fi
 
 # Compose the scenario definition.
